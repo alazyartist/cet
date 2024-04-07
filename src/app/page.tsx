@@ -7,12 +7,16 @@ export default async function Home() {
   const info = await fetch(
     "https://api.dexscreener.com/latest/dex/pairs/solana/A2PNuT5Q43q1m3mRSFdcEv429TP4phuv2UwcmTFW5UUM",
   );
-  const data = await info.json();
+  const data: DexPair = await info.json();
 
-  const FDV = data?.pairs?.[0]?.fdv;
+  const FDV = data?.pairs?.[0]?.fdv as number;
+  const P24 = data?.pairs?.[0]?.priceChange.h24 as number;
+  const P6 = data?.pairs?.[0]?.priceChange.h6 as number;
+  const P1 = data?.pairs?.[0]?.priceChange.h1 as number;
+  const M5 = data?.pairs?.[0]?.priceChange.m5 as number;
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
+    <main className="no-scrollbar flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#02296d] to-[#15152c] text-white">
+      <div className="no-scrollbar container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
         <h2 className="flex flex-col place-items-center text-center text-2xl font-bold">
           <Image
             className="rounded-3xl"
@@ -29,6 +33,7 @@ export default async function Home() {
           </div>
           {FDV && <h1>We are currently at ${FDV}</h1>}
         </h2>
+
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
           <Link
             className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
@@ -54,7 +59,45 @@ export default async function Home() {
               get in now on the next 100x coin.
               <br /> we&apos;re going to flip it and go parabolic.
             </div>
-          </Link>
+          </Link>{" "}
+          <div className="flex flex-col gap-4 lg:absolute lg:right-10 lg:top-10">
+            <div className="flex justify-between">
+              <div className="text-center">Time</div>
+              <div className="text-center">Price Change</div>
+            </div>
+            <div className="flex justify-between">
+              <div>P24</div>
+              <div
+                className={`rounded-lg bg-white/20 ${P24 >= 0 ? "text-emerald-500" : "text-red-500"}`}
+              >
+                {P24}%
+              </div>
+            </div>
+            <div className="flex justify-between">
+              <div>P6</div>
+              <div
+                className={`rounded-lg bg-white/20 ${P6 >= 0 ? "text-emerald-500" : "text-red-500"}`}
+              >
+                {P6}%
+              </div>
+            </div>
+            <div className="flex justify-between">
+              <div>P1</div>
+              <div
+                className={`rounded-lg bg-white/20 ${P1 >= 0 ? "text-emerald-500" : "text-red-500"}`}
+              >
+                {P1}%
+              </div>
+            </div>
+            <div className="flex justify-between">
+              <div>M5</div>
+              <div
+                className={`rounded-lg bg-white/20 ${M5 >= 0 ? "text-emerald-500" : "text-red-500"}`}
+              >
+                {M5}%
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
