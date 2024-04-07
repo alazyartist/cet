@@ -7,14 +7,12 @@ import TelegramLogo from "@/telegram_logo";
 import DexScreenerLogo from "@/dexscreener_logo";
 
 export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
   const info = await fetch(
     "https://api.dexscreener.com/latest/dex/pairs/solana/A2PNuT5Q43q1m3mRSFdcEv429TP4phuv2UwcmTFW5UUM",
   );
   const data = await info.json();
 
   const FDV = data.pairs[0].fdv;
-  const MARKET_CAP = data.pairs[0].marketCap;
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
@@ -71,18 +69,18 @@ export default async function Home() {
   );
 }
 
-async function CrudShowcase() {
-  const latestPost = await api.post.getLatest();
+// async function CrudShowcase() {
+//   const latestPost = await api.post.getLatest();
 
-  return (
-    <div className="w-full max-w-xs">
-      {latestPost ? (
-        <p className="truncate">Your most recent post: {latestPost.name}</p>
-      ) : (
-        <p>You have no posts yet.</p>
-      )}
+//   return (
+//     <div className="w-full max-w-xs">
+//       {latestPost ? (
+//         <p className="truncate">Your most recent post: {latestPost.name}</p>
+//       ) : (
+//         <p>You have no posts yet.</p>
+//       )}
 
-      <CreatePost />
-    </div>
-  );
-}
+//       <CreatePost />
+//     </div>
+//   );
+// }
