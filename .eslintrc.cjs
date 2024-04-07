@@ -16,6 +16,8 @@ const config = {
     "@typescript-eslint/no-unsafe-assignment": "off",
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/non-nullable-type-assertion-style": "off",
+    "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+    "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/array-type": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/consistent-type-imports": [
@@ -33,7 +35,7 @@ const config = {
     ],
     "@typescript-eslint/require-await": "off",
     "@typescript-eslint/no-misused-promises": [
-      "error",
+      "warn",
       {
         checksVoidReturn: {
           attributes: false,

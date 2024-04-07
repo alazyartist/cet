@@ -20,18 +20,18 @@ export default function Home() {
 
   // Function to fetch data
   async function fetchData() {
-    const info = await fetch(
-      "https://api.dexscreener.com/latest/dex/pairs/solana/A2PNuT5Q43q1m3mRSFdcEv429TP4phuv2UwcmTFW5UUM",
-    );
-    const newData = await info.json();
-    setData(newData);
+    setInterval(async () => {
+      const info = await fetch(
+        "https://api.dexscreener.com/latest/dex/pairs/solana/A2PNuT5Q43q1m3mRSFdcEv429TP4phuv2UwcmTFW5UUM",
+      );
+      const newData: DexPair = await info.json();
+      Promise.resolve(newData);
+      setData(newData);
+    }, 1200);
   }
 
   useEffect(() => {
     fetchData(); // Initial fetch
-    const interval = setInterval(fetchData, 1200); // Fetch every 2 minutes
-
-    return () => clearInterval(interval); // Clean up the interval
   }, []);
 
   if (!data) return <div>Loading...</div>; // Or any other loading state
