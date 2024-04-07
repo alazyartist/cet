@@ -1,19 +1,47 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import TelegramLogo from "@/telegram_logo";
 import DexScreenerLogo from "@/dexscreener_logo";
+import { useEffect, useState } from "react";
 
-export default async function Home() {
-  const info = await fetch(
-    "https://api.dexscreener.com/latest/dex/pairs/solana/A2PNuT5Q43q1m3mRSFdcEv429TP4phuv2UwcmTFW5UUM",
-  );
-  const data: DexPair = await info.json();
+export default function Home() {
+  // const info = await fetch(
+  //   "https://api.dexscreener.com/latest/dex/pairs/solana/A2PNuT5Q43q1m3mRSFdcEv429TP4phuv2UwcmTFW5UUM",
+  // );
+  // const data: DexPair = await info.json();
 
-  const FDV = data?.pairs?.[0]?.fdv as number;
-  const P24 = data?.pairs?.[0]?.priceChange.h24 as number;
-  const P6 = data?.pairs?.[0]?.priceChange.h6 as number;
-  const P1 = data?.pairs?.[0]?.priceChange.h1 as number;
-  const M5 = data?.pairs?.[0]?.priceChange.m5 as number;
+  // const FDV = data?.pairs?.[0]?.fdv as number;
+  // const P24 = data?.pairs?.[0]?.priceChange.h24 as number;
+  // const P6 = data?.pairs?.[0]?.priceChange.h6 as number;
+  // const P1 = data?.pairs?.[0]?.priceChange.h1 as number;
+  // const M5 = data?.pairs?.[0]?.priceChange.m5 as number;
+  const [data, setData] = useState<DexPair>(null!);
+
+  // Function to fetch data
+  async function fetchData() {
+    const info = await fetch(
+      "https://api.dexscreener.com/latest/dex/pairs/solana/A2PNuT5Q43q1m3mRSFdcEv429TP4phuv2UwcmTFW5UUM",
+    );
+    const newData = await info.json();
+    setData(newData);
+  }
+
+  useEffect(() => {
+    fetchData(); // Initial fetch
+    const interval = setInterval(fetchData, 1200); // Fetch every 2 minutes
+
+    return () => clearInterval(interval); // Clean up the interval
+  }, []);
+
+  if (!data) return <div>Loading...</div>; // Or any other loading state
+
+  const FDV = data.pairs?.[0]?.fdv!;
+  const P24 = data.pairs?.[0]?.priceChange.h24!;
+  const P6 = data.pairs?.[0]?.priceChange.h6!;
+  const P1 = data.pairs?.[0]?.priceChange.h1!;
+  const M5 = data.pairs?.[0]?.priceChange.m5!;
+
   return (
     <main className="no-scrollbar flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#02296d] to-[#15152c] text-white">
       <div className="no-scrollbar container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
@@ -31,7 +59,7 @@ export default async function Home() {
             Cet Coin ran to <span className="font-bold">$10m.</span>
             <br /> We&apos;re going to flip it and go straight to $100m.
           </div>
-          {FDV && <h1>We are currently at ${FDV}</h1>}
+          {FDV && <h1>We are currently at ${FDV.toLocaleString()}</h1>}
         </h2>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
