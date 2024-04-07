@@ -1,7 +1,4 @@
 import Link from "next/link";
-
-import { CreatePost } from "@/app/_components/create-post";
-import { api } from "@/trpc/server";
 import Image from "next/image";
 import TelegramLogo from "@/telegram_logo";
 import DexScreenerLogo from "@/dexscreener_logo";
@@ -12,13 +9,10 @@ export default async function Home() {
   );
   const data = await info.json();
 
-  const FDV = data.pairs[0].fdv;
+  const FDV = data?.pairs?.[0]?.fdv;
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        {/* <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-          <span className="text-zinc-300">CET</span>
-        </h1> */}
         <h2 className="flex flex-col place-items-center text-center text-2xl font-bold">
           <Image
             className="rounded-3xl"
@@ -31,9 +25,9 @@ export default async function Home() {
           />
           <div className="text-lg">
             Cet Coin ran to <span className="font-bold">$10m.</span>
-            <br /> We're going to flip it and go straight to $100m.
+            <br /> We&apos;re going to flip it and go straight to $100m.
           </div>
-          <h1>We are currently at ${FDV}</h1>
+          {FDV && <h1>We are currently at ${FDV}</h1>}
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
           <Link
@@ -53,34 +47,16 @@ export default async function Home() {
           >
             <h3 className="text-2xl font-bold">BUY NOW →</h3>
             <div className="flex h-fit w-full flex-col place-content-center place-items-center p-4">
-              <DexScreenerLogo className={"h-[200px] w-[200px]"} />
+              <DexScreenerLogo classNameExtra={"h-[200px] w-[200px]"} />
             </div>
 
             <div className="text-xs">
               get in now on the next 100x coin.
-              <br /> we're going to flip it and go parabolic.
+              <br /> we&apos;re going to flip it and go parabolic.
             </div>
           </Link>
         </div>
-
-        {/* <CrudShowcase /> */}
       </div>
     </main>
   );
 }
-
-// async function CrudShowcase() {
-//   const latestPost = await api.post.getLatest();
-
-//   return (
-//     <div className="w-full max-w-xs">
-//       {latestPost ? (
-//         <p className="truncate">Your most recent post: {latestPost.name}</p>
-//       ) : (
-//         <p>You have no posts yet.</p>
-//       )}
-
-//       <CreatePost />
-//     </div>
-//   );
-// }

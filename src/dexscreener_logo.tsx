@@ -1,10 +1,10 @@
 import * as React from "react";
-const DexScreenerLogo = (props: any) => (
+const DexScreenerLogo = (props: { classNameExtra: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="#fff"
     fillRule="evenodd"
-    className="chakra-icon custom-euf446"
+    className={`chakra-icon custom-euf446 ${props.classNameExtra}`}
     viewBox="0 0 252 300"
     {...props}
   >
